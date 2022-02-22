@@ -55,59 +55,35 @@ function startGame() {
     let color;
     for (let i = 0; i < BOARDSIZE; i++) {
         pieces[i] = new Array(BOARDSIZE);
-        for (let j = 0; j < BOARDSIZE; j++) {
-            pieces[i][j] = new Array();
-        }
     }
 
-    //Adds the type of the pieces to the matrix 0
-    for (let i=0; i < BOARDSIZE; i++){
-        if (i >= 2 && i <= 5){
-            for (let j = 0; j < BOARDSIZE; j++){
-                pieces[i][j][0]=0;
-            }
-        }
+    for (let i = 0; i < BOARDSIZE; i++) {
+        if (i >= 2 && i <= 5) continue;
+        color = i < 3 ? "B" : "W";
         if (i == 0 || i == 7) {
-            pieces[i][0][0] = pieces[i][7][0] = "R";
-            pieces[i][1][0] = pieces[i][6][0] = "N";
-            pieces[i][2][0] = pieces[i][5][0] = "B";
-            pieces[i][3][0] = "Q";
-            pieces[i][4][0] = "K";
-        } else if (i == 1 || i == 6) {
+            pieces[i][0] = pieces[i][7] = "R" + color;
+            pieces[i][1] = pieces[i][6] = "N" + color;
+            pieces[i][2] = pieces[i][5] = "B" + color;
+            pieces[i][3] = "Q" + color;
+            pieces[i][4] = "K" + color;
+        } else {
             for (let j = 0; j < BOARDSIZE; j++) {
-                pieces[i][j][0] = "P";
+                pieces[i][j] = "P" + color;
             }
         }
     }
-
-    //Adds the color of the pieces to the matrix 1
-    for (let i= 0; i < BOARDSIZE; i++){
-        if (i >= 2 && i <= 5){
-            color = 0;
-        }else{
-            color = i < 3 ? "B" : "W";
-        }
-        for (let j= 0; j < BOARDSIZE; j++){
-            pieces[i][j][1] = color;
-        }
-    }
-
-    //Adds the move number of the pieces to the matrix 2
-    for (let i= 0; i < BOARDSIZE; i++){
-        for (let j= 0; j < BOARDSIZE; j++){
-            pieces[i][j][2] = 0;
-        }
-    }
-    //Adds the hint indicator of the pieces to the matrix 3
-    for (let i= 0; i < BOARDSIZE; i++){
-        for (let j= 0; j < BOARDSIZE; j++){
-            pieces[i][j][3] = 0;
-            
-        }
-    }
-    
     printPieces(pieces);
 
-    //Adds the events that control de movement of the pieces
+    //Adds the flag "first move" to the pawns
+    for (let i = 0; i < BOARDSIZE; i++) {
+        for (let j = 0; j < BOARDSIZE; j++) {
+            if(pieces[i][j]){
+                if (pieces[i][j].charAt(0) == "P") {
+                    $("#board td[id = "+j+"_"+i+"]").attr("firstMove", true);
+                }
+            }
+        }
+    }
+
     addEvents(pieces);
 }
