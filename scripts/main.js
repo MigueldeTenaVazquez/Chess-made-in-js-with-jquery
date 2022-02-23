@@ -3,7 +3,7 @@ const BOARDSIZE = 8;
 
 //Creates the initial state of the board
 function startGame() {
-    
+
     //Creates the board
     let text = "";
     text += '<table id="board">';
@@ -20,10 +20,10 @@ function startGame() {
     //Asigns ID to the cells of the board
     let row = 0;
     let col = 0;
-    $("#board td").each(function (n) {
+    $("#board td").each(function(n) {
         $(this).attr("id", row + "_" + col);
         row++;
-        if (! (row < 8)) {
+        if (!(row < 8)) {
             col++;
             row = 0;
         }
@@ -34,7 +34,7 @@ function startGame() {
     let gameWidth = $("#game").width();
     let cellSize = gameHeight > gameWidth ? gameWidth / 8 : gameHeight / 8;
 
-    $("#board td").each(function(n){
+    $("#board td").each(function(n) {
 
         //Adds width and height to the cells
         $(this).width(cellSize + "px");
@@ -43,10 +43,10 @@ function startGame() {
         //Adds color to the cells
         let x = +$(this).attr("id").split("_")[0];
         let y = +$(this).attr("id").split("_")[1];
-        if((x+y)%2==0){
-           $(this).addClass("colorBeige");
-        }else{
-           $(this).addClass("colorOlive");
+        if ((x + y) % 2 == 0) {
+            $(this).addClass("colorBeige");
+        } else {
+            $(this).addClass("colorOlive");
         }
     });
 
@@ -61,10 +61,10 @@ function startGame() {
     }
 
     //Adds the type of the pieces to the matrix 0
-    for (let i=0; i < BOARDSIZE; i++){
-        if (i >= 2 && i <= 5){
-            for (let j = 0; j < BOARDSIZE; j++){
-                pieces[i][j][0]=0;
+    for (let i = 0; i < BOARDSIZE; i++) {
+        if (i >= 2 && i <= 5) {
+            for (let j = 0; j < BOARDSIZE; j++) {
+                pieces[i][j][0] = 0;
             }
         }
         if (i == 0 || i == 7) {
@@ -81,31 +81,31 @@ function startGame() {
     }
 
     //Adds the color of the pieces to the matrix 1
-    for (let i= 0; i < BOARDSIZE; i++){
-        if (i >= 2 && i <= 5){
+    for (let i = 0; i < BOARDSIZE; i++) {
+        if (i >= 2 && i <= 5) {
             color = 0;
-        }else{
+        } else {
             color = i < 3 ? "B" : "W";
         }
-        for (let j= 0; j < BOARDSIZE; j++){
+        for (let j = 0; j < BOARDSIZE; j++) {
             pieces[i][j][1] = color;
         }
     }
 
     //Adds the move number of the pieces to the matrix 2
-    for (let i= 0; i < BOARDSIZE; i++){
-        for (let j= 0; j < BOARDSIZE; j++){
+    for (let i = 0; i < BOARDSIZE; i++) {
+        for (let j = 0; j < BOARDSIZE; j++) {
             pieces[i][j][2] = 0;
         }
     }
     //Adds the hint indicator of the pieces to the matrix 3
-    for (let i= 0; i < BOARDSIZE; i++){
-        for (let j= 0; j < BOARDSIZE; j++){
+    for (let i = 0; i < BOARDSIZE; i++) {
+        for (let j = 0; j < BOARDSIZE; j++) {
             pieces[i][j][3] = 0;
-            
+
         }
     }
-    
+
     printPieces(pieces);
 
     //Adds the events that control de movement of the pieces
