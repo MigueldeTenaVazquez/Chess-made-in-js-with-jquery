@@ -5,6 +5,9 @@ function pieceHint(pieces, x, y, pieceType, pieceColor, pieceMove) {
     let vectorOffsety;
     let maxSize;
     switch (pieceType) {
+        case "P":
+            pawnHint(pieces, x, y, pieceColor, pieceType, pieceMove);
+            break;
         case "R":
             vectorOffsetx = new Array(-1, +1, +0, +0);
             vectorOffsety = new Array(+0, +0, -1, +1);
@@ -31,9 +34,7 @@ function pieceHint(pieces, x, y, pieceType, pieceColor, pieceMove) {
             maxSize = 8;
             break;
     }
-    if (pieceType == "P") {
-        pawnHint(pieces, x, y, pieceColor, pieceType, pieceMove);
-    } else {
+    if (pieceType != "P") {
         for (let i = 0; i < vectorOffsetx.length; i++) {
             offsetx = vectorOffsetx[i];
             offsety = vectorOffsety[i];
@@ -70,16 +71,24 @@ function pieceHint(pieces, x, y, pieceType, pieceColor, pieceMove) {
 function addHint(pieces, x, offsetx, y, offsety, hint) {
     let text = ""
     if (hint) {
-        if (hint == 1) {
-            text = "hint";
-        } else if (hint == 2) {
-            text = "eat";
-        } else if (hint == 3) {
-            text = "check";
-        } else if (hint == 4) {
-            text = "eat"
-        } else {
-            alert.log("algo va mal")
+        switch (hint) {
+            case 1:
+                text = "hint";
+                break;
+            case 2:
+                text = "eat";
+                break;
+            case 3:
+                text = "check";
+                break;
+            case 4:
+                text = "eat"
+                break;
+            case 5:
+                text = "castling"
+                break;
+            default:
+                alert.log("algo va mal");
         }
         selectTd(x, offsetx, y, offsety).addClass(text);
         pieces[x + offsetx][y + offsety][3] = hint;
@@ -89,7 +98,7 @@ function addHint(pieces, x, offsetx, y, offsety, hint) {
 }
 
 function clearAllHint(pieces) {
-    $("#board td").each(function() {
+    $("#board td").each(function () {
         $(this).removeClass("hint");
         $(this).removeClass("eat");
         $(this).removeClass("check");
@@ -128,7 +137,8 @@ function pawnHint(pieces, x, y, pieceColor, pieceType, pieceMove) {
     vectorOffsety = new Array(+1, -1);
     for (let i = 0; i < 2; i++) {
         offsety = vectorOffsety[i];
-        if (checkCoordinates(x, 0, y, offsety) && checkPiece(pieces, x, 0, y, offsety) && !checkPieceColor(pieces, x, 0, y, offsety, pieceColor) && pieces[x + 0][y + offsety][0] == pieceType) {
+        console.log(pieceMove)
+        if (checkCoordinates(x, 0, y, offsety) && checkPiece(pieces, x, 0, y, offsety) && !checkPieceColor(pieces, x, 0, y, offsety, pieceColor) && checkPiece(pieces, x, 0, y, offsety) && checkPieceMove(pieces, x, 0, y, offsety, 1)) {
             hint = 4;
             addHint(pieces, x, offsetx, y, offsety, hint);
         }

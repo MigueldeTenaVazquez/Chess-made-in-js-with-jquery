@@ -34,6 +34,15 @@ function checkPieceColor(pieces, x, offsetx, y, offsety, pieceColor) {
     }
 }
 
+function checkPieceMove(pieces, x, offsetx, y, offsety, move) {
+    if (checkPiece(pieces, x, offsetx, y, offsety)) {
+        console.log(pieces[x + offsetx][y + offsety][2], move)
+        return pieces[x + offsetx][y + offsety][2] == move;
+    } else {
+        return false;
+    }
+}
+
 function checkCoordinates(x, offsetx, y, offsety) {
     return (x + offsetx >= 0) && (x + offsetx < 8) && (y + offsety >= 0) && (y + offsety < 8);
 }
